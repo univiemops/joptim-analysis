@@ -1,0 +1,20 @@
+repos:
+  # 1) Sync Jupytext pairing first
+  - repo: https://github.com/mwouts/jupytext
+    rev: v1.17.3
+    hooks:
+      - id: jupytext
+        args: [
+          --sync,
+          # The key fix: Pass ONLY the desired output format/path.
+          # The source 'ipynb' format is implicit when using --sync.
+          --to, "py//py:percent" 
+        ]
+        files: ^notebooks/(?!py/).*\.ipynb$
+        exclude: (^|/)\.ipynb_checkpoints/
+  # 2) Strip outputs last
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.8.1
+    hooks:
+      - id: nbstripout
+        files: ^notebooks/(?!py/).*\.ipynb$
